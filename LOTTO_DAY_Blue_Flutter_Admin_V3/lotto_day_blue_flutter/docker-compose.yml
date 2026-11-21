@@ -1,0 +1,25 @@
+# One command: docker compose up --build   →  http://localhost:8080
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: lotto
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localpass}
+      POSTGRES_DB: lotto_day_demo
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lotto -d lotto_day_demo"]
+      interval: 5s
+      retries: 20
+  app:
+    build: .
+    depends_on:
+      postgres: { condition: service_healthy }
+    env_file: [.env]
+    environment:
+      DATABASE_URL: postgresql://lotto:${POSTGRES_PASSWORD:-localpass}@postgres:5432/lotto_day_demo?schema=public
+      PORT: "8080"
+    ports: ["127.0.0.1:8080:8080"]
+volumes:
+  pgdata:

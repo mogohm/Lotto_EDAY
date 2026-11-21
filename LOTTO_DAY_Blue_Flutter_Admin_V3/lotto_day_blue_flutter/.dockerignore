@@ -1,0 +1,15 @@
+**/node_modules
+**/dist
+**/.pgdata
+build
+.dart_tool
+.idea
+.vscode
+**/*.iml
+**/.env
+!**/.env.example
+*.zip
+integration_test
+test
+test_driver
+backend/test

@@ -1,0 +1,11 @@
+*.zip
+node_modules/
+.dart_tool/
+build/
+backend/dist/
+.pgdata/
+.env
+!.env.example
+*.log
+.idea/
+*.iml
